@@ -459,7 +459,7 @@
 
   function testDynamicImportMetaUrlWithQuery(name, i) {
     // prettier-ignore
-    const metaUrl = new URL(`./nested/${name}.png?abc`, import.meta.url,)
+    const metaUrl = new URL(`./nested/${name ? name: true}.png?abc`, import.meta.url,)
     text(`.dynamic-import-meta-url-${i}-query`, metaUrl)
     document.querySelector(`.dynamic-import-meta-url-img-${i}-query`).src =
       metaUrl
