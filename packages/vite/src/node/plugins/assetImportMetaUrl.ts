@@ -68,7 +68,16 @@ export function assetImportMetaUrlPlugin(config: ResolvedConfig): Plugin {
 
           // potential dynamic template string
           if (rawUrl[0] === '`' && rawUrl.includes('${')) {
-            let [pureUrl, queryString = ''] = rawUrl.split('?')
+            // find the query ? that not in ${}
+            const match = rawUrl.match(/(?<!\{[^}]+)\?/)
+            let pureUrl =
+              match?.index !== undefined
+                ? rawUrl.substring(0, match.index)
+                : rawUrl
+            let queryString =
+              match?.index !== undefined
+                ? rawUrl.substring(match.index + 1, rawUrl.length)
+                : ''
             if (queryString) {
               pureUrl += '`'
               queryString = '?' + queryString.slice(0, -1)
